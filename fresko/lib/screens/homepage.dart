@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../Generics/Colors.dart';
-import 'SlideRight.dart';
 import 'SignIn.dart';
 
 void main() {
@@ -18,16 +17,48 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
+
+  AnimationController _controller;
+  bool _onClick = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: Duration(milliseconds: 150));
+    _controller.addListener((){
+      setState(() {
+
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    double uni_height = MediaQuery.of(context).size.height;
-    double uni_width = MediaQuery.of(context).size.width;
+    double uniHeight = MediaQuery.of(context).size.height;
+    double uniWidth = MediaQuery.of(context).size.width;
+
+    Animation<Offset> getAnimation() {
+      return Tween<Offset>(
+        begin: Offset(0.5, 0.0),
+        end: Offset.zero
+      ).animate(_controller);
+    }
+
+    void reverseAnimation() {
+      try{
+        setState(() async {
+          await _controller.reverse();
+          _onClick = false;
+        });
+      } catch(e) {}
+
+    }
 
     return new Scaffold(
       appBar: new AppBar(
-        backgroundColor: Color(0xff16ad32),
-        title: new Text('Freshko', style: TextStyle(fontFamily: 'ArimaMadurai', fontSize: uni_width/12),),
+        backgroundColor: themeColor,
+        title: new Text('Freshko', style: TextStyle(fontFamily: 'ArimaMadurai', fontSize: uniWidth/12),),
       ),
       drawer: new Drawer(
         child: new Container(
@@ -37,18 +68,18 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(left: uni_width / 25),
+                  padding: EdgeInsets.only(left: uniWidth / 25),
                   child: Container(
-                    height: uni_height / 7,
-                    width: uni_width / 4,
+                    height: uniHeight / 7,
+                    width: uniWidth / 4,
                     child: Image(
                       image: AssetImage('assets/images/FreshkoLogo.png'),
                     ),
                   ),
                 ),
                 Container(
-                    height: uni_height / 7,
-                    width: uni_width / 2,
+                    height: uniHeight / 7,
+                    width: uniWidth / 2,
                     child: Image(
                         image: AssetImage('assets/images/CompanyName.jpeg')
                     )),
@@ -56,32 +87,46 @@ class _HomePageState extends State<HomePage> {
                   height: 1.2,
                   color: Colors.black87,
                 ),
-                ListView(
+                (_onClick == false) ? ListView(
                   shrinkWrap: true,
                   children: <Widget>[
-                      FlatButton(onPressed: (){}, child: Text('Your Profile')),
-                      FlatButton(onPressed: (){}, child: Text('Your Orders')),
-                      FlatButton(
-                        onPressed: (){},
-                        child: Row(children: <Widget>[
-                          Padding(padding: EdgeInsets.only(left: uni_width/8),),
-                          Text('Categories'),
-                          Padding(padding: EdgeInsets.only(left: uni_width/20),),
-                          Icon(Icons.arrow_forward, size: uni_width/20,)
-                        ],),
-                      ),
-                      FlatButton(onPressed: (){}, child: Text('Prime Membership')),
-                      FlatButton(onPressed: (){}, child: Text('SignUp')),
-                      FlatButton(onPressed: (){
-                        Navigator.of(context).pushNamed('/SignIn');
-                      }, child: Text('SignIn')),
+                    FlatButton(onPressed: () {}, child: Text('Your Profile')),
+                    FlatButton(onPressed: () {}, child: Text('Your Orders')),
+                    FlatButton(
+                      onPressed: (){
+                        setState(() {
+                          _onClick = true;
+                          _controller.forward();
+                        });
+                      },
+                      child: Row(children: <Widget>[
+                        Padding(padding: EdgeInsets.only(left: uniWidth / 8),),
+                        Text('Categories'),
+                        Padding(
+                          padding: EdgeInsets.only(left: uniWidth / 20),),
+                        Icon(Icons.arrow_forward, size: uniWidth / 20,)
+                      ],),
+                    ),
+                    FlatButton(
+                        onPressed: () {}, child: Text('Prime Membership')),
+                    FlatButton(onPressed: () {}, child: Text('SignUp')),
+                    FlatButton(onPressed: () {
+                      Navigator.of(context).pushNamed('/SignIn');
+                    }, child: Text('SignIn')),
                   ],
+                ) : SlideTransition(
+                  position: getAnimation(),
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: <Widget>[
+                      IconButton(icon: Icon(Icons.arrow_back), onPressed: reverseAnimation),
+                      FlatButton(onPressed: () {}, child: Text('Your Profile')),
+                      FlatButton(onPressed: () {}, child: Text('Your Orders')),
+                    ],
+                  ),
                 )
               ],
-
             )),
-
-
       ),
       body: new Container(
         child: new Center(
