@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import '../Generics/Colors.dart';
+import 'SignIn.dart';
 
 void main() {
   runApp(new MaterialApp(
     debugShowCheckedModeBanner: false,
     home: new HomePage(),
+    routes: <String, WidgetBuilder>{
+      '/SignIn': (BuildContext context) => new SignIn()
+    },
   ));
 }
 
@@ -67,7 +71,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       FlatButton(onPressed: (){}, child: Text('Prime Membership')),
                       FlatButton(onPressed: (){}, child: Text('SignUp')),
-                      FlatButton(onPressed: (){}, child: Text('SignIn')),
+                      FlatButton(onPressed: (){
+                        Navigator.of(context).pushNamed('/SignIn');
+                      }, child: Text('SignIn')),
                   ],
                 )
               ],
