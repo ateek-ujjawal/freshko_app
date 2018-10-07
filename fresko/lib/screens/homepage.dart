@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     return new Scaffold(
       appBar: new AppBar(
         backgroundColor: Color(0xff16ad32),
-        title: new Text('Freshko'),
+        title: new Text('Freshko', style: TextStyle(fontFamily: 'ArimaMadurai', fontSize: uni_width/12),),
       ),
       drawer: new Drawer(
         child: new Container(
@@ -56,7 +56,15 @@ class _HomePageState extends State<HomePage> {
                   children: <Widget>[
                       FlatButton(onPressed: (){}, child: Text('Your Profile')),
                       FlatButton(onPressed: (){}, child: Text('Your Orders')),
-                      FlatButton(onPressed: (){}, child: Text('Categories'),)
+                      FlatButton(
+                        onPressed: (){},
+                        child: Row(children: <Widget>[
+                          Padding(padding: EdgeInsets.only(left: uni_width/8),),
+                          Text('Categories'),
+                          Padding(padding: EdgeInsets.only(left: uni_width/20),),
+                          Icon(Icons.arrow_forward, size: uni_width/20,)
+                        ],),
+                      )
                   ],
 
                 )
