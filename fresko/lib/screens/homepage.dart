@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import '../Generics/Colors.dart';
-import 'test.dart';
 import 'SlideRight.dart';
+import 'SignIn.dart';
 
 void main() {
   runApp(new MaterialApp(
     debugShowCheckedModeBanner: false,
     home: new HomePage(),
     routes: <String, WidgetBuilder>{
-      '/Profile': (BuildContext context) => Profile()
+      '/SignIn': (BuildContext context) => new SignIn()
     },
   ));
 }
@@ -72,7 +72,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       FlatButton(onPressed: (){}, child: Text('Prime Membership')),
                       FlatButton(onPressed: (){}, child: Text('SignUp')),
-                      FlatButton(onPressed: (){}, child: Text('SignIn')),
+                      FlatButton(onPressed: (){
+                        Navigator.of(context).pushNamed('/SignIn');
+                      }, child: Text('SignIn')),
                   ],
                 )
               ],
@@ -92,56 +94,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
-
-class CustomDrawer extends StatelessWidget {
-
-  final double uni_width, uni_height;
-  CustomDrawer({this.uni_width, this.uni_height});
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: new Container(
-          color: Colors.white,
-          padding: EdgeInsets.only(top: 32.0, left: 55.0, right: 55.0),
-          child: new Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(left: uni_width / 25),
-                child: Container(
-                  height: uni_height / 7,
-                  width: uni_width / 4,
-                  child: Image(
-                    image: AssetImage('assets/images/FreshkoLogo.png'),
-                  ),
-                ),
-              ),
-              Container(
-                  height: uni_height / 7,
-                  width: uni_width / 2,
-                  child: Image(
-                      image: AssetImage('assets/images/CompanyName.jpeg')
-                  )),
-              Container(
-                height: 1.2,
-                color: Colors.black87,
-              ),
-              ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  FlatButton(
-                    onPressed: (){Navigator.of(context).push(SlideRightRoute(widget: Profile()));},
-                    child: Text('Your Profile')
-                  ),
-                  FlatButton(onPressed: (){}, child: Text('Your Orders')),
-                  FlatButton(onPressed: (){}, child: Text('Categories'))
-                ],
-              )
-            ],
-          )),
-    );
-  }
-
 }
