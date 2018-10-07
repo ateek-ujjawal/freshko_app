@@ -9,6 +9,10 @@ void main() {
     routes: <String, WidgetBuilder>{
       '/SignIn': (BuildContext context) => new SignIn()
     },
+    title: 'Freshko',
+    theme: ThemeData(
+      primaryColor: themeColor
+    ),
   ));
 }
 

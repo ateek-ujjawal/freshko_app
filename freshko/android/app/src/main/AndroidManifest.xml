@@ -14,8 +14,8 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="fresko"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Freshko"
+        android:icon="@mipmap/freshko_logo">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
