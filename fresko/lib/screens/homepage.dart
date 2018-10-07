@@ -64,9 +64,11 @@ class _HomePageState extends State<HomePage> {
                           Padding(padding: EdgeInsets.only(left: uni_width/20),),
                           Icon(Icons.arrow_forward, size: uni_width/20,)
                         ],),
-                      )
+                      ),
+                      FlatButton(onPressed: (){}, child: Text('Prime Membership')),
+                      FlatButton(onPressed: (){}, child: Text('SignUp')),
+                      FlatButton(onPressed: (){}, child: Text('SignIn')),
                   ],
-
                 )
               ],
 
