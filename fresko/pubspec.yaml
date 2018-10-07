@@ -67,3 +67,15 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages
+
+  fonts:
+    - family: ArimaMadurai
+      fonts:
+        - asset: fonts/ArimaMadurai-Light.ttf
+          weight: 300
+        - asset: fonts/ArimaMadurai-Regular.ttf
+          weight: 400
+        - asset: fonts/ArimaMadurai-Bold.ttf
+          weight: 700
+        - asset: fonts/ArimaMadurai-Black.ttf
+          weight: 900
