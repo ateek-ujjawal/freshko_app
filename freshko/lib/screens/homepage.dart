@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import '../Generics/Colors.dart';
 import 'SignIn.dart';
+import 'SignUp.dart';
 
 void main() {
   runApp(new MaterialApp(
     debugShowCheckedModeBanner: false,
     home: new HomePage(),
     routes: <String, WidgetBuilder>{
-      '/SignIn': (BuildContext context) => new SignIn()
+      '/SignIn': (BuildContext context) => new SignIn(),
+      '/SignUp': (BuildContext context) => new SignUp()
     },
     title: 'Freshko',
     theme: ThemeData(
@@ -113,7 +115,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                     ),
                     FlatButton(
                         onPressed: () {}, child: Text('Prime Membership')),
-                    FlatButton(onPressed: () {}, child: Text('SignUp')),
+                    FlatButton(onPressed: () {
+                      Navigator.of(context).pushNamed('/SignUp');
+                    }, child: Text('SignUp')),
                     FlatButton(onPressed: () {
                       Navigator.of(context).pushNamed('/SignIn');
                     }, child: Text('SignIn')),
