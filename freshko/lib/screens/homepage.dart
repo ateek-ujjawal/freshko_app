@@ -128,8 +128,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                     shrinkWrap: true,
                     children: <Widget>[
                       IconButton(icon: Icon(Icons.arrow_back), onPressed: reverseAnimation),
-                      FlatButton(onPressed: () {}, child: Text('Your Profile')),
-                      FlatButton(onPressed: () {}, child: Text('Your Orders')),
+                      FlatButton(onPressed: () {}, child: Text('Fruits and\n Vegetables')),
+                      FlatButton(onPressed: () {}, child: Text('Grocery and\n Stamples')),
+                      FlatButton(onPressed: () {}, child: Text('Beverages')),
+                      FlatButton(onPressed: () {}, child: Text('Biscuits and\n Snacks')),
+                      FlatButton(onPressed: () {}, child: Text('Beauty Products')),
+                      FlatButton(onPressed: () {}, child: Text('Household')),
+                      FlatButton(onPressed: () {}, child: Text('Breakfast and\n Dairy')),
+                      FlatButton(onPressed: () {}, child: Text('Baby and\n Kids')),
+                      FlatButton(onPressed: () {}, child: Text('Noodles/Instant Foods')),
                     ],
                   ),
                 )
