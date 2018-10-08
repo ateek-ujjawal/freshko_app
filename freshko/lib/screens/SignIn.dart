@@ -134,7 +134,7 @@ class _SignInState extends State<SignIn> {
                             ),
                           ),
                         ),
-                        Padding(padding: EdgeInsets.only(top: 50.0)),
+                        Padding(padding: EdgeInsets.only(top: 10.0)),
                         //SIGN IN BUTTON
                         Container(
                           height: 50.0,
@@ -149,11 +149,50 @@ class _SignInState extends State<SignIn> {
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 10.0, bottom: 5.0),
+                          child: Text('OR', style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: 'ArimaMadurai',
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20.0
+                          )),
+                        ),
+                        Container(
+                          height: 50.0,
+                          width: 250.0,
+                          child: RaisedButton(
+                            onPressed: (){},
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0)
+                            ),
+                            color: Colors.red,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Image(
+                                      image: AssetImage('assets/images/whitegooglelogo.png'),
+                                      height: uni_height/32,
+                                      width: uni_width/18
+                                  ),
+                                  Padding(padding: EdgeInsets.all(uni_width/30)),
+                                  Text(
+                                    'SIGN IN WITH GOOGLE',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                         )
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
