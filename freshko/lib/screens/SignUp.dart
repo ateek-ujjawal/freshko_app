@@ -1,5 +1,21 @@
 import 'package:flutter/material.dart';
 import '../Generics/Colors.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
+import 'dart:async';
+
+Future<FirebaseApp> createFirebaseInstance() async {
+  final FirebaseApp app = await FirebaseApp.configure(
+      options: FirebaseOptions(
+          googleAppID: '1:334140745180:android:efae17b2732bf3bf',
+          apiKey: 'AIzaSyAjdPNQaX0rMFznpIYXfBujxMXvbKVbXpY',
+          databaseURL: 'https://angulartest-ab9e1.firebaseio.com/',
+      ),
+      name: 'FirebaseInstance');
+  return app;
+}
+
 
 class SignUp extends StatefulWidget {
   @override
@@ -7,6 +23,58 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+
+  List<Credentials> credentials = List();
+  Credentials credential;
+  DatabaseReference credentialRef;
+  FirebaseDatabase database;
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+
+    credential = Credentials("","","");
+    createFirebaseInstance().then((app){
+      database = FirebaseDatabase(app: app);
+      credentialRef = database.reference().child('credentials');
+      credentialRef.onChildAdded.listen(_onEventAdded);
+      credentialRef.onChildChanged.listen(_onEventChanged);
+    });
+
+  }
+
+  _onEventAdded(Event event){
+    setState(() {
+      credentials.add(Credentials.fromSnapShot(event.snapshot));
+    });
+  }
+
+  _onEventChanged(Event event){
+    var old = credentials.singleWhere((entry){
+      return entry.key == event.snapshot.key;
+    });
+
+    setState(() {
+      credentials[credentials.indexOf(old)] = Credentials.fromSnapShot(event.snapshot);
+    });
+  }
+
+  void handleSubmit(){
+
+    final FormState form = formKey.currentState;
+
+    if(form.validate()){
+      form.save();
+      form.reset();
+      credentialRef.push().set(credential.toJson());
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,33 +142,38 @@ class _SignUpState extends State<SignUp> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Container(
-                            height: uni_height/15,
-                            width: uni_width/1.8,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30.0),
-                              color: Colors.white,
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                              child: TextField(
-                                  style: TextStyle(
-                                      fontFamily: 'ArimaMadurai',
-                                      fontSize: 20.0,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.black
-                                  ),
-                                  decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: 'First Name',
-                                      hintStyle: TextStyle(
-                                          fontFamily: 'ArimaMadurai',
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.w400
-                                      )
-                                  )
+                        Form(
+                          key: formKey,
+                          child: Container(
+                              height: uni_height/15,
+                              width: uni_width/1.8,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30.0),
+                                color: Colors.white,
                               ),
-                            )
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                                child: TextFormField(
+                                    style: TextStyle(
+                                        fontFamily: 'ArimaMadurai',
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black
+                                    ),
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'First Name',
+                                        hintStyle: TextStyle(
+                                            fontFamily: 'ArimaMadurai',
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.w400
+                                        )
+                                    ),
+                                  onSaved: (val) => credential.firstName = val,
+                                  validator: (val) => val == "" ? val:null,
+                                ),
+                              )
+                          ),
                         ),
                         Padding(padding: EdgeInsets.only(top: 15.0)),
                         Container(
@@ -112,7 +185,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                              child: TextField(
+                              child: TextFormField(
                                   style: TextStyle(
                                       fontFamily: 'ArimaMadurai',
                                       fontSize: 20.0,
@@ -127,7 +200,9 @@ class _SignUpState extends State<SignUp> {
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.w400
                                       )
-                                  )
+                                  ),
+                                  onSaved: (val) => credential.lastName = val,
+                                validator: (val) => val == "" ? val:null,
                               ),
                             )
                         ),
@@ -142,7 +217,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                             child: Padding(
                               padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                              child: TextField(
+                              child: TextFormField(
                                   style: TextStyle(
                                       fontFamily: 'ArimaMadurai',
                                       fontSize: 20.0,
@@ -151,13 +226,15 @@ class _SignUpState extends State<SignUp> {
                                   ),
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Username',
+                                      hintText: 'Email',
                                       hintStyle: TextStyle(
                                           fontFamily: 'ArimaMadurai',
                                           fontSize: 20.0,
                                           fontWeight: FontWeight.w400
                                       )
-                                  )
+                                  ),
+                                  onSaved: (val) => credential.email = val,
+                                validator: (val) => val == "" ? val:null,
                               ),
                             )
                         ),
@@ -172,7 +249,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                           child: Padding(
                             padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                            child: TextField(
+                            child: TextFormField(
                               style: TextStyle(
                                   fontFamily: 'ArimaMadurai',
                                   fontSize: 20.0,
@@ -189,18 +266,23 @@ class _SignUpState extends State<SignUp> {
                                   )
                               ),
                               obscureText: true,
+                                onSaved: (val) => credential.password = val,
+                              validator: (val) => val == "" ? val:null,
                             ),
                           ),
                         ),
                         Padding(padding: EdgeInsets.only(top: 50.0)),
-                        //SIGN IN BUTTON
+                        //SIGN UP BUTTON
                         Container(
                           height: uni_height/15,
                           width: uni_width/1.8,
                           child: RaisedButton(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30.0)),
-                            onPressed: () {},
+                            onPressed: () {
+                              while(credentialRef == null) {}
+                              handleSubmit();
+                            },
                             color: themeColor,
                             child: Text(
                               'SIGN UP',
@@ -220,3 +302,34 @@ class _SignUpState extends State<SignUp> {
     );
   }
 }
+
+class Credentials{
+
+  String key;
+  String firstName;
+  String lastName;
+  String email;
+  String password;
+
+  Credentials(this.firstName, this.lastName, this.email);
+
+  Credentials.fromSnapShot(DataSnapshot snapshot)
+      : key = snapshot.key,
+        firstName= snapshot.value["firstName"],
+        lastName= snapshot.value["lastName"],
+        email= snapshot.value["email"];
+
+  toJson(){
+
+    return{
+
+      "firstName": firstName,
+      "lastName": lastName,
+      "email": email
+    };
+  }
+
+
+
+}
+
