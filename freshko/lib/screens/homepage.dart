@@ -93,51 +93,58 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                   height: 1.2,
                   color: Colors.black87,
                 ),
-                (_onClick == false) ? ListView(
-                  shrinkWrap: true,
-                  children: <Widget>[
-                    FlatButton(onPressed: () {}, child: Text('Your Profile')),
-                    FlatButton(onPressed: () {}, child: Text('Your Orders')),
-                    FlatButton(
-                      onPressed: (){
-                        setState(() {
-                          _onClick = true;
-                          _controller.forward();
-                        });
-                      },
-                      child: Row(children: <Widget>[
-                        Padding(padding: EdgeInsets.only(left: uniWidth / 8),),
-                        Text('Categories'),
-                        Padding(
-                          padding: EdgeInsets.only(left: uniWidth / 20),),
-                        Icon(Icons.arrow_forward, size: uniWidth / 20,)
-                      ],),
+                (_onClick == false) ? Expanded(
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: <Widget>[
+                        FlatButton(
+                            onPressed: () {}, child: Text('Your Profile')),
+                        FlatButton(
+                            onPressed: () {}, child: Text('Your Orders')),
+                        FlatButton(
+                          onPressed: () {
+                            setState(() {
+                              _onClick = true;
+                              _controller.forward();
+                            });
+                          },
+                          child: Row(children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(left: uniWidth / 8),),
+                            Text('Categories'),
+                            Padding(
+                              padding: EdgeInsets.only(left: uniWidth / 20),),
+                            Icon(Icons.arrow_forward, size: uniWidth / 20,)
+                          ],),
+                        ),
+                        FlatButton(
+                            onPressed: () {}, child: Text('Prime Membership')),
+                        FlatButton(onPressed: () {
+                          Navigator.of(context).pushNamed('/SignUp');
+                        }, child: Text('SignUp')),
+                        FlatButton(onPressed: () {
+                          Navigator.of(context).pushNamed('/SignIn');
+                        }, child: Text('SignIn')),
+                      ],
+                    )
+                ): Expanded(
+                  child: SlideTransition(
+                    position: getAnimation(),
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: <Widget>[
+                        IconButton(icon: Icon(Icons.arrow_back), onPressed: reverseAnimation),
+                        FlatButton(onPressed: () {}, child: Text('Fruits and\n Vegetables')),
+                        FlatButton(onPressed: () {}, child: Text('Grocery and\n Stamples')),
+                        FlatButton(onPressed: () {}, child: Text('Beverages')),
+                        FlatButton(onPressed: () {}, child: Text('Biscuits and\n Snacks')),
+                        FlatButton(onPressed: () {}, child: Text('Beauty Products')),
+                        FlatButton(onPressed: () {}, child: Text('Household')),
+                        FlatButton(onPressed: () {}, child: Text('Breakfast and\n Dairy')),
+                        FlatButton(onPressed: () {}, child: Text('Baby and\n Kids')),
+                        FlatButton(onPressed: () {}, child: Text('Noodles/Instant Foods')),
+                      ],
                     ),
-                    FlatButton(
-                        onPressed: () {}, child: Text('Prime Membership')),
-                    FlatButton(onPressed: () {
-                      Navigator.of(context).pushNamed('/SignUp');
-                    }, child: Text('SignUp')),
-                    FlatButton(onPressed: () {
-                      Navigator.of(context).pushNamed('/SignIn');
-                    }, child: Text('SignIn')),
-                  ],
-                ) : SlideTransition(
-                  position: getAnimation(),
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: <Widget>[
-                      IconButton(icon: Icon(Icons.arrow_back), onPressed: reverseAnimation),
-                      FlatButton(onPressed: () {}, child: Text('Fruits and\n Vegetables')),
-                      FlatButton(onPressed: () {}, child: Text('Grocery and\n Stamples')),
-                      FlatButton(onPressed: () {}, child: Text('Beverages')),
-                      FlatButton(onPressed: () {}, child: Text('Biscuits and\n Snacks')),
-                      FlatButton(onPressed: () {}, child: Text('Beauty Products')),
-                      FlatButton(onPressed: () {}, child: Text('Household')),
-                      FlatButton(onPressed: () {}, child: Text('Breakfast and\n Dairy')),
-                      FlatButton(onPressed: () {}, child: Text('Baby and\n Kids')),
-                      FlatButton(onPressed: () {}, child: Text('Noodles/Instant Foods')),
-                    ],
                   ),
                 )
               ],
