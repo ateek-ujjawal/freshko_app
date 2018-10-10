@@ -2,20 +2,26 @@ import 'package:flutter/material.dart';
 import '../Generics/Colors.dart';
 import 'SignIn.dart';
 import 'SignUp.dart';
+import 'Profile.dart';
+import 'package:flutter/services.dart';
 
 void main() {
-  runApp(new MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: new HomePage(),
-    routes: <String, WidgetBuilder>{
-      '/SignIn': (BuildContext context) => new SignIn(),
-      '/SignUp': (BuildContext context) => new SignUp()
-    },
-    title: 'Freshko',
-    theme: ThemeData(
-      primaryColor: themeColor
-    ),
-  ));
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).whenComplete(() {
+      runApp(new MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: new HomePage(),
+        routes: <String, WidgetBuilder>{
+          '/SignIn': (BuildContext context) => new SignIn(),
+          '/SignUp': (BuildContext context) => new SignUp(),
+          '/Profile': (BuildContext context) => new ProfilePage()
+        },
+        title: 'Freshko',
+        theme: ThemeData(
+          primaryColor: themeColor
+        ),
+      ));
+    }
+  );
 }
 
 class HomePage extends StatefulWidget {
@@ -98,7 +104,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                       shrinkWrap: true,
                       children: <Widget>[
                         FlatButton(
-                            onPressed: () {}, child: Text('Your Profile')),
+                            onPressed: () {
+                              Navigator.of(context).pushNamed('/Profile');
+                            }, child: Text('Your Profile')),
                         FlatButton(
                             onPressed: () {}, child: Text('Your Orders')),
                         FlatButton(
