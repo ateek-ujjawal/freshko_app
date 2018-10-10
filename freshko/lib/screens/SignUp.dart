@@ -30,21 +30,27 @@ class _SignUpState extends State<SignUp> {
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldstate = new GlobalKey<ScaffoldState>();
-
+  StreamSubscription<Event> sub1;
+  StreamSubscription<Event> sub2;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-
     credential = Credentials("", "", "");
     createFirebaseInstance().then((app) {
       database = FirebaseDatabase(app: app);
       credentialRef = database.reference().child('credentials');
-      credentialRef.onChildAdded.listen(_onEventAdded);
-      credentialRef.onChildChanged.listen(_onEventChanged);
+      sub1 = credentialRef.onChildAdded.listen(_onEventAdded);
+      sub2 = credentialRef.onChildChanged.listen(_onEventChanged);
     });
+  }
+
+  @override
+  void dispose(){
+    sub1.cancel();
+    sub2.cancel();
+    super.dispose();
   }
 
   _onEventAdded(Event event) {
