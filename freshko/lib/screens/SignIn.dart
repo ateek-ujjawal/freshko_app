@@ -12,8 +12,7 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     double uni_height = MediaQuery.of(context).size.height;
     double uni_width = MediaQuery.of(context).size.width;
-    print(uni_height);
-    print(uni_width);
+
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -36,7 +35,7 @@ class _SignInState extends State<SignIn> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Container(
-                      width: 400.0,
+                      width: uni_width/0.9,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -64,12 +63,12 @@ class _SignInState extends State<SignIn> {
                             topRight: Radius.circular(10.0)),
                         color: themeColor,
                       ),
-                      height: 200.0,
+                      height: uni_height/3.2,
                     ),
                     Flexible(
                       child: Container(
-                        height: 400.0,
-                        width: 400.0,
+                        height: uni_height/2,
+                        width: uni_width/0.9,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(10.0),
@@ -81,14 +80,14 @@ class _SignInState extends State<SignIn> {
                           children: <Widget>[
                             //USERNAME FIELD
                             Container(
-                              height: 50.0,
-                              width: 200.0,
+                                height: uni_height/12.8,
+                                width: uni_width/1.8,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30.0),
                                 color: Colors.white,
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                                padding: EdgeInsets.only(left: uni_width/36, right: uni_width/36),
                                 child: TextField(
                                   style: TextStyle(
                                     fontFamily: 'ArimaMadurai',
@@ -98,7 +97,7 @@ class _SignInState extends State<SignIn> {
                                   ),
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        hintText: 'Username',
+                                        hintText: 'Email',
                                         hintStyle: TextStyle(
                                             fontFamily: 'ArimaMadurai',
                                             fontSize: 20.0,
@@ -111,8 +110,8 @@ class _SignInState extends State<SignIn> {
                             Padding(padding: EdgeInsets.only(top: 15.0)),
                             //PASSWORD FIELD
                             Container(
-                              height: 50.0,
-                              width: 200.0,
+                              height: uni_height/12.8,
+                              width: uni_width/1.8,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30.0),
                                 color: Colors.white,
@@ -142,8 +141,8 @@ class _SignInState extends State<SignIn> {
                             Padding(padding: EdgeInsets.only(top: 10.0)),
                             //SIGN IN BUTTON
                             Container(
-                              height: 50.0,
-                              width: 200.0,
+                              height: uni_height/12.8,
+                              width: uni_width/1.8,
                               child: RaisedButton(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30.0)),
@@ -165,8 +164,8 @@ class _SignInState extends State<SignIn> {
                               )),
                             ),
                             Container(
-                              height: 50.0,
-                              width: 250.0,
+                              height: uni_height/12.8,
+                              width: uni_width/1.8,
                               child: RaisedButton(
                                 onPressed: (){},
                                 shape: RoundedRectangleBorder(
@@ -182,11 +181,12 @@ class _SignInState extends State<SignIn> {
                                           height: uni_height/32,
                                           width: uni_width/18
                                       ),
-                                      Padding(padding: EdgeInsets.all(uni_width/30)),
+                                      Padding(padding: EdgeInsets.all(uni_width/40)),
                                       Text(
                                         'SIGN IN WITH GOOGLE',
                                         style: TextStyle(
                                           color: Colors.white,
+                                          fontSize: 11.0
                                         ),
                                       )
                                     ],
