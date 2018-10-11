@@ -1,4 +1,4 @@
-package com.example.fresko;
+package com.example.freshko;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

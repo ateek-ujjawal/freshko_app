@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fresko/Generics/Colors.dart';
+import 'package:freshko/Generics/Colors.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
