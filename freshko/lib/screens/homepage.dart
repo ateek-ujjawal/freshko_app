@@ -3,6 +3,7 @@ import '../Generics/Colors.dart';
 import 'SignIn.dart';
 import 'SignUp.dart';
 import 'Profile.dart';
+import 'aboutUs.dart';
 import 'package:flutter/services.dart';
 
 void main() {
@@ -13,7 +14,8 @@ void main() {
         routes: <String, WidgetBuilder>{
           '/SignIn': (BuildContext context) => new SignIn(),
           '/SignUp': (BuildContext context) => new SignUp(),
-          '/Profile': (BuildContext context) => new ProfilePage()
+          '/Profile': (BuildContext context) => new ProfilePage(),
+          '/AboutUs': (BuildContext context) => new AboutUs(),
         },
         title: 'Freshko',
         theme: ThemeData(
@@ -133,6 +135,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                         FlatButton(onPressed: () {
                           Navigator.of(context).pushNamed('/SignIn');
                         }, child: Text('SignIn')),
+                        FlatButton(onPressed: () {
+                          Navigator.of(context).pushNamed('/AboutUs');
+                        }, child: Text('AboutUs')),
                       ],
                     )
                 ): Expanded(
