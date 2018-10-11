@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import '../Generics/Colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -7,6 +9,35 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  bool _validated = false;
+  String _errorText = "";
+
+  Future<void> _onSignedInWithEmail() async {
+    if(_emailController.text != "" && _passwordController.text != ""){
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text)
+          .whenComplete((){
+            setState(() {
+              _validated = true;
+            });
+      })
+          .catchError((error){
+            setState(() {
+              _errorText = error.message;
+              _validated = false;
+            });
+      });
+    } else {
+      setState(() {
+        _errorText = "One or more fields are left empty";
+        _validated = false;
+      });
+    }
+  }
+
+  final _emailController = new TextEditingController();
+  final _passwordController = new TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldState = new GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +45,7 @@ class _SignInState extends State<SignIn> {
     double uni_width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      key: _scaffoldState,
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
@@ -78,34 +110,47 @@ class _SignInState extends State<SignIn> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            //USERNAME FIELD
-                            Container(
-                                height: uni_height/12.8,
-                                width: uni_width/1.8,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30.0),
-                                color: Colors.white,
+                            //EMAIL FIELD
+                            (_errorText != "") ?
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 8.0),
+                              child: Text(
+                                _errorText,
+                                style: TextStyle(
+                                  color: Colors.red
+                                ),
                               ),
-                              child: Padding(
-                                padding: EdgeInsets.only(left: uni_width/36, right: uni_width/36),
-                                child: TextField(
-                                  style: TextStyle(
-                                    fontFamily: 'ArimaMadurai',
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.black
-                                  ),
+                            ) : Container(),
+                            Container(
+                                height: uni_height / 12.8,
+                                width: uni_width / 1.8,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  color: Colors.white,
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: uni_width / 36,
+                                      right: uni_width / 36),
+                                  child: TextFormField(
+                                    style: TextStyle(
+                                        fontFamily: 'ArimaMadurai',
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black
+                                    ),
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        hintText: 'Email',
+                                        hintText: 'Email*',
                                         hintStyle: TextStyle(
                                             fontFamily: 'ArimaMadurai',
                                             fontSize: 20.0,
                                             fontWeight: FontWeight.w400
                                         )
-                                    )
-                                ),
-                              )
+                                    ),
+                                    validator: (val) => val == "" ? val : null,
+                                    controller: _emailController,
+                                  ),
+                                )
                             ),
                             Padding(padding: EdgeInsets.only(top: 15.0)),
                             //PASSWORD FIELD
@@ -118,7 +163,7 @@ class _SignInState extends State<SignIn> {
                               ),
                               child: Padding(
                                 padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                                child: TextField(
+                                child: TextFormField(
                                     style: TextStyle(
                                         fontFamily: 'ArimaMadurai',
                                         fontSize: 20.0,
@@ -127,7 +172,7 @@ class _SignInState extends State<SignIn> {
                                     ),
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        hintText: 'Password',
+                                        hintText: 'Password*',
                                         hintStyle: TextStyle(
                                             fontFamily: 'ArimaMadurai',
                                             fontSize: 20.0,
@@ -135,6 +180,8 @@ class _SignInState extends State<SignIn> {
                                         )
                                     ),
                                   obscureText: true,
+                                  validator: (val) => val == "" ? val : null,
+                                  controller: _passwordController,
                                 ),
                               ),
                             ),
@@ -146,7 +193,18 @@ class _SignInState extends State<SignIn> {
                               child: RaisedButton(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30.0)),
-                                onPressed: () {},
+                                onPressed: () {
+                                  _onSignedInWithEmail().whenComplete((){
+                                    if(_validated){
+                                      final snackBar = SnackBar(
+                                        backgroundColor: Color(0xFF3C4D5D).withOpacity(0.75),
+                                        content: Text('Sign In Successful!', style: TextStyle(color: Colors.white)),
+                                        duration: Duration(seconds: 2),
+                                      );
+                                      _scaffoldState.currentState.showSnackBar(snackBar);
+                                    }
+                                  });
+                                },
                                 color: themeColor,
                                 child: Text(
                                   'SIGN IN',
