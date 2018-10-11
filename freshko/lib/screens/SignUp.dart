@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../Generics/Colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 
 Future<FirebaseApp> createFirebaseInstance() async {
   final FirebaseApp app = await FirebaseApp.configure(
@@ -32,6 +34,7 @@ class _SignUpState extends State<SignUp> {
   final GlobalKey<ScaffoldState> _scaffoldstate = new GlobalKey<ScaffoldState>();
   StreamSubscription<Event> sub1;
   StreamSubscription<Event> sub2;
+  bool _validated = false;
 
   @override
   void initState() {
@@ -70,18 +73,31 @@ class _SignUpState extends State<SignUp> {
     });
   }
 
-  void handleSubmit() {
-    final FormState form = formKey.currentState;
+  Future<void> handleSubmit() async {
     credential.firstName = _firstnameController.text;
     credential.lastName = _lastnameController.text;
     credential.email = _emailController.text;
-    print(credential);
+    credential.password = _passwordController.text;
 
-    if (form.validate()) {
-      form.save();
-      credentialRef.push().set(credential.toJson());
+    if (credential.firstName != "" && credential.lastName != "" && credential.email != "" && credential.password != "") {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: credential.email, password: credential.password)
+          .whenComplete((){
+        credentialRef.push().set(credential.toJson());
+        setState(() {
+          _validated = true;
+        });
+      })
+          .catchError((error){
+            setState(() {
+              _errorText = error.message;
+              _validated = false;
+            });
+      });
+    } else {
       setState(() {
-        form.reset();
+        _errorText = "One or more fields are left empty";
+        _validated = false;
       });
     }
   }
@@ -90,6 +106,7 @@ class _SignUpState extends State<SignUp> {
   final _lastnameController = new TextEditingController();
   final _emailController = new TextEditingController();
   final _passwordController = new TextEditingController();
+  String _errorText = "";
 
   @override
   Widget build(BuildContext context) {
@@ -168,42 +185,49 @@ class _SignUpState extends State<SignUp> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Form(
-                              key: formKey,
-                              child: Container(
-                                  height: uni_height / 15,
-                                  width: uni_width / 1.8,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    color: Colors.white,
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 10.0, right: 10.0),
-                                    child: TextFormField(
-                                      style: TextStyle(
-                                          fontFamily: 'ArimaMadurai',
-                                          fontSize: 20.0,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.black
-                                      ),
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: 'First Name',
-                                          hintStyle: TextStyle(
-                                              fontFamily: 'ArimaMadurai',
-                                              fontSize: 20.0,
-                                              fontWeight: FontWeight.w400
-                                          )
-                                      ),
-                                      validator: (val) =>
-                                      val == ""
-                                          ? val
-                                          : null,
-                                      controller: _firstnameController,
-                                    ),
-                                  )
+                            (_errorText != "") ?
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 8.0),
+                              child: Text(
+                                _errorText,
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ),
                               ),
+                            ) : Container(),
+                            Container(
+                                height: uni_height / 15,
+                                width: uni_width / 1.8,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  color: Colors.white,
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 10.0, right: 10.0),
+                                  child: TextFormField(
+                                    style: TextStyle(
+                                        fontFamily: 'ArimaMadurai',
+                                        fontSize: 20.0,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black
+                                    ),
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'First Name*',
+                                        hintStyle: TextStyle(
+                                            fontFamily: 'ArimaMadurai',
+                                            fontSize: 20.0,
+                                            fontWeight: FontWeight.w400
+                                        )
+                                    ),
+                                    validator: (val) =>
+                                    val == ""
+                                        ? val
+                                        : null,
+                                    controller: _firstnameController,
+                                  ),
+                                )
                             ),
                             Padding(padding: EdgeInsets.only(top: 15.0)),
                             Container(
@@ -225,7 +249,7 @@ class _SignUpState extends State<SignUp> {
                                     ),
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        hintText: 'Last Name',
+                                        hintText: 'Last Name*',
                                         hintStyle: TextStyle(
                                             fontFamily: 'ArimaMadurai',
                                             fontSize: 20.0,
@@ -237,7 +261,7 @@ class _SignUpState extends State<SignUp> {
                                   ),
                                 )
                             ),
-                            //USERNAME FIELD
+                            //EMAIL FIELD
                             Padding(padding: EdgeInsets.only(top: 15.0)),
                             Container(
                                 height: uni_height / 15,
@@ -258,7 +282,7 @@ class _SignUpState extends State<SignUp> {
                                     ),
                                     decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        hintText: 'Email',
+                                        hintText: 'Email*',
                                         hintStyle: TextStyle(
                                             fontFamily: 'ArimaMadurai',
                                             fontSize: 20.0,
@@ -291,7 +315,7 @@ class _SignUpState extends State<SignUp> {
                                   ),
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: 'Password',
+                                      hintText: 'Password*',
                                       hintStyle: TextStyle(
                                           fontFamily: 'ArimaMadurai',
                                           fontSize: 20.0,
@@ -314,19 +338,21 @@ class _SignUpState extends State<SignUp> {
                                     borderRadius: BorderRadius.circular(30.0)),
                                 onPressed: () {
                                   while (credentialRef == null) {}
-                                  handleSubmit();
-
-                                  final snackBar = SnackBar(
-                                    backgroundColor: Color(0xFF3C4D5D).withOpacity(0.75),
-                                    content: Text('SignUp Successful!', style: TextStyle(color: Colors.white),),
-                                    action: SnackBarAction(
-                                        label: 'SignIn Here',
-                                        onPressed: () {
-                                          Navigator.of(context).pushNamedAndRemoveUntil('/SignIn', (Route<dynamic> route) => false);
-                                    }),
-                                    duration: Duration(seconds: 2),
-                                  );
-                                  _scaffoldstate.currentState.showSnackBar(snackBar);
+                                  handleSubmit().whenComplete((){
+                                    if(_validated){
+                                      final snackBar = SnackBar(
+                                        backgroundColor: Color(0xFF3C4D5D).withOpacity(0.75),
+                                        content: Text('SignUp Successful!', style: TextStyle(color: Colors.white),),
+                                        action: SnackBarAction(
+                                            label: 'SignIn Here',
+                                            onPressed: () {
+                                              Navigator.of(context).pushNamedAndRemoveUntil('/SignIn', (Route<dynamic> route) => false);
+                                            }),
+                                        duration: Duration(seconds: 2),
+                                      );
+                                      _scaffoldstate.currentState.showSnackBar(snackBar);
+                                    }
+                                  });
                                 },
                                 color: themeColor,
                                 child: Text(
