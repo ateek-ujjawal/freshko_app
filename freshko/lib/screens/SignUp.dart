@@ -394,7 +394,6 @@ class Credentials {
 
   toJson() {
     return {
-
       "firstName": firstName,
       "lastName": lastName,
       "email": email

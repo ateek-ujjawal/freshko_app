@@ -5,6 +5,7 @@ import 'SignUp.dart';
 import 'Profile.dart';
 import 'aboutUs.dart';
 import 'package:flutter/services.dart';
+import 'Categories.dart';
 
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).whenComplete(() {
@@ -16,6 +17,7 @@ void main() {
           '/SignUp': (BuildContext context) => new SignUp(),
           '/Profile': (BuildContext context) => new ProfilePage(),
           '/AboutUs': (BuildContext context) => new AboutUs(),
+          '/Categories': (BuildContext context) => new CategoryPage()
         },
         title: 'Freshko',
         theme: ThemeData(
@@ -32,7 +34,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
-
+  bool _onPressed = false;
   AnimationController _controller;
   bool _onClick = false;
 
@@ -47,26 +49,33 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
     });
   }
 
+  Animation<Offset> getAnimation() {
+    return Tween<Offset>(
+        begin: Offset(0.5, 0.0),
+        end: Offset.zero
+    ).animate(_controller);
+  }
+
+  void reverseAnimation() {
+    try{
+      setState(() async {
+        await _controller.reverse();
+        _onClick = false;
+      });
+    } catch(e) {}
+
+  }
+
   @override
   Widget build(BuildContext context) {
     double uniHeight = MediaQuery.of(context).size.height;
     double uniWidth = MediaQuery.of(context).size.width;
 
-    Animation<Offset> getAnimation() {
-      return Tween<Offset>(
-        begin: Offset(0.5, 0.0),
-        end: Offset.zero
-      ).animate(_controller);
-    }
-
-    void reverseAnimation() {
-      try{
-        setState(() async {
-          await _controller.reverse();
-          _onClick = false;
-        });
-      } catch(e) {}
-
+    void _onCategoryClick(){
+      setState(() {
+        _onPressed = true;
+      });
+      Navigator.of(context).pop();
     }
 
     return new Scaffold(
@@ -147,15 +156,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
                       shrinkWrap: true,
                       children: <Widget>[
                         IconButton(icon: Icon(Icons.arrow_back), onPressed: reverseAnimation),
-                        FlatButton(onPressed: () {}, child: Text('Fruits and\n Vegetables')),
-                        FlatButton(onPressed: () {}, child: Text('Grocery and\n Stamples')),
-                        FlatButton(onPressed: () {}, child: Text('Beverages')),
-                        FlatButton(onPressed: () {}, child: Text('Biscuits and\n Snacks')),
-                        FlatButton(onPressed: () {}, child: Text('Beauty Products')),
-                        FlatButton(onPressed: () {}, child: Text('Household')),
-                        FlatButton(onPressed: () {}, child: Text('Breakfast and\n Dairy')),
-                        FlatButton(onPressed: () {}, child: Text('Baby and\n Kids')),
-                        FlatButton(onPressed: () {}, child: Text('Noodles/Instant Foods')),
+                        FlatButton(onPressed: _onCategoryClick, child: Text('Fruits and\n Vegetables')),
+                        FlatButton(onPressed: _onCategoryClick, child: Text('Grocery and\n Stamples')),
+                        FlatButton(onPressed: _onCategoryClick, child: Text('Beverages')),
+                        FlatButton(onPressed: _onCategoryClick, child: Text('Biscuits and\n Snacks')),
+                        FlatButton(onPressed: _onCategoryClick, child: Text('Beauty Products')),
+                        FlatButton(onPressed: _onCategoryClick, child: Text('Household')),
+                        FlatButton(onPressed: _onCategoryClick, child: Text('Breakfast and\n Dairy')),
+                        FlatButton(onPressed: _onCategoryClick, child: Text('Baby and\n Kids')),
+                        FlatButton(onPressed: _onCategoryClick, child: Text('Noodles/Instant Foods')),
                       ],
                     ),
                   ),
@@ -164,13 +173,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             )),
       ),
       body: new Container(
-        child: new Center(
-          child: new Column(
-            children: <Widget>[
-              new Text(''),
-            ],
-          ),
-        ),
+        child: (_onPressed == true) ? CategoryPage() : null,
       ),
     );
   }
