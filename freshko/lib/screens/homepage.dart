@@ -173,181 +173,192 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin{
             )),
       ),
       body: new Container(
-        child: (_onPressed == true) ? CategoryPage() : Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+        child: (_onPressed == true) ? CategoryPage() : new DefaultHomepage(),
+      ),
+    );
+  }
+}
+
+class DefaultHomepage extends StatelessWidget {
+  const DefaultHomepage({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(top: 15.0),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 15.0),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(color: Colors.green, height: 2.0, width: 100.0,),
-                  Padding(padding: EdgeInsets.only(left: 25.0)),
-                  Container(child: Text('Best Sellers'),),
-                  Padding(padding: EdgeInsets.only(left: 25.0)),
-                  Container(color: Colors.green, height: 2.0, width: 100.0,),
-                ],
-              ),
-              Container(
-                height: 250.0,
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: <Widget>[
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(padding: EdgeInsets.only(top: 25.0)),
-                                Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 20.0),
-                                    ),
-                                    Container(
-                                        height: 200.0,
-                                        width: 150.0,
-                                        child: Card(
-                                          elevation: 3.0,
-                                        )),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 25.0),
-                                    ),
-                                    Container(
-                                        height: 200.0,
-                                        width: 150.0,
-                                        child: Card(
-                                          elevation: 3.0,
-                                        )),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 25.0),
-                                    ),
-                                    Container(
-                                        height: 200.0,
-                                        width: 150.0,
-                                        child: Card(
-                                          elevation: 3.0,
-                                        )),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 25.0),
-                                    ),
-                                    Container(
-                                        height: 200.0,
-                                        width: 150.0,
-                                        child: Card(
-                                          elevation: 3.0,
-                                        )),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 25.0),
-                                    ),
-                                    Container(
-                                        height: 200.0,
-                                        width: 150.0,
-                                        child: Card(
-                                          elevation: 3.0,
-                                        )),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 25.0),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )
-                          ],
-                        )),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 15.0),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(color: Colors.green, height: 2.0, width: 100.0,),
-                  Padding(padding: EdgeInsets.only(left: 25.0)),
-                  Container(child: Text('On Sale'),),
-                  Padding(padding: EdgeInsets.only(left: 25.0)),
-                  Container(color: Colors.green, height: 2.0, width: 100.0,),
-                ],
-              ),
-              Container(
-                height: 250.0,
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: <Widget>[
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(padding: EdgeInsets.only(top: 25.0)),
-                                Row(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 20.0),
-                                    ),
-                                    Container(
-                                        height: 200.0,
-                                        width: 150.0,
-                                        child: Card(
-                                          elevation: 3.0,
-                                        )),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 25.0),
-                                    ),
-                                    Container(
-                                        height: 200.0,
-                                        width: 150.0,
-                                        child: Card(
-                                          elevation: 3.0,
-                                        )),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 25.0),
-                                    ),
-                                    Container(
-                                        height: 200.0,
-                                        width: 150.0,
-                                        child: Card(
-                                          elevation: 3.0,
-                                        )),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 25.0),
-                                    ),
-                                    Container(
-                                        height: 200.0,
-                                        width: 150.0,
-                                        child: Card(
-                                          elevation: 3.0,
-                                        )),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 25.0),
-                                    ),
-                                    Container(
-                                        height: 200.0,
-                                        width: 150.0,
-                                        child: Card(
-                                          elevation: 3.0,
-                                        )),
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 25.0),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )
-                          ],
-                        )),
-                  ],
-                ),
-              ),
+              Container(color: Colors.green, height: 2.0, width: 100.0,),
+              Padding(padding: EdgeInsets.only(left: 25.0)),
+              Container(child: Text('Best Sellers'),),
+              Padding(padding: EdgeInsets.only(left: 25.0)),
+              Container(color: Colors.green, height: 2.0, width: 100.0,),
             ],
           ),
-        ),
+          Container(
+            height: 250.0,
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(padding: EdgeInsets.only(top: 25.0)),
+                            Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.only(left: 20.0),
+                                ),
+                                Container(
+                                    height: 200.0,
+                                    width: 150.0,
+                                    child: Card(
+                                      elevation: 3.0,
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 25.0),
+                                ),
+                                Container(
+                                    height: 200.0,
+                                    width: 150.0,
+                                    child: Card(
+                                      elevation: 3.0,
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 25.0),
+                                ),
+                                Container(
+                                    height: 200.0,
+                                    width: 150.0,
+                                    child: Card(
+                                      elevation: 3.0,
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 25.0),
+                                ),
+                                Container(
+                                    height: 200.0,
+                                    width: 150.0,
+                                    child: Card(
+                                      elevation: 3.0,
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 25.0),
+                                ),
+                                Container(
+                                    height: 200.0,
+                                    width: 150.0,
+                                    child: Card(
+                                      elevation: 3.0,
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(right: 25.0),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
+                    )),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 15.0),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(color: Colors.green, height: 2.0, width: 100.0,),
+              Padding(padding: EdgeInsets.only(left: 25.0)),
+              Container(child: Text('On Sale'),),
+              Padding(padding: EdgeInsets.only(left: 25.0)),
+              Container(color: Colors.green, height: 2.0, width: 100.0,),
+            ],
+          ),
+          Container(
+            height: 250.0,
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: <Widget>[
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(padding: EdgeInsets.only(top: 25.0)),
+                            Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.only(left: 20.0),
+                                ),
+                                Container(
+                                    height: 200.0,
+                                    width: 150.0,
+                                    child: Card(
+                                      elevation: 3.0,
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 25.0),
+                                ),
+                                Container(
+                                    height: 200.0,
+                                    width: 150.0,
+                                    child: Card(
+                                      elevation: 3.0,
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 25.0),
+                                ),
+                                Container(
+                                    height: 200.0,
+                                    width: 150.0,
+                                    child: Card(
+                                      elevation: 3.0,
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 25.0),
+                                ),
+                                Container(
+                                    height: 200.0,
+                                    width: 150.0,
+                                    child: Card(
+                                      elevation: 3.0,
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 25.0),
+                                ),
+                                Container(
+                                    height: 200.0,
+                                    width: 150.0,
+                                    child: Card(
+                                      elevation: 3.0,
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(right: 25.0),
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
+                    )),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
