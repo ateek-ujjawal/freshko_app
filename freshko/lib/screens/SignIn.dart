@@ -80,7 +80,7 @@ class _SignInState extends State<SignIn> {
                           ),
                           Padding(padding: EdgeInsets.only(top: 20.0)),
                           Text(
-                            'Sign In',
+                            'Sign In',//Font family not yet added
                             style: TextStyle(
                                 fontSize: 25.0,
                                 color: Colors.white,
