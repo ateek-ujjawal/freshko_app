@@ -41,7 +41,7 @@ class _AboutUsState extends State<AboutUs> {
                                 Container(
                                   height: uni_height / 3.5,
                                   width: uni_width / 2,
-                                  color: Color(0xFF00FF92).withOpacity(0.15),
+                                  color: Color(0xFF00FF92).withOpacity(0.150),
                                 ),
                               ],
                             ),
