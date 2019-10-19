@@ -10,8 +10,9 @@ import 'screens/homepage.dart';
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .whenComplete(() {
-    runApp(new MaterialApp(
-      debugShowCheckedModeBanner: false,
+    runApp(
+      new MaterialApp(
+      debugShowCheckedModeBanner: false,//removed debug banner
       home: new HomePage(),
       routes: <String, WidgetBuilder>{
         '/SignIn': (BuildContext context) => new SignIn(),
